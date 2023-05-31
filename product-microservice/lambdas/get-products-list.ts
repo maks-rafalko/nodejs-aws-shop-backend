@@ -1,7 +1,7 @@
 import { availableProducts } from './mocks/data';
-import { buildResponse } from './utils';
+import { buildResponse, ResponseSchema } from './utils';
 
-export const handler = async (): Promise<any> => {
+export const handler = async (): Promise<ResponseSchema> => {
   try {
     return buildResponse(200, availableProducts);
   } catch (error) {

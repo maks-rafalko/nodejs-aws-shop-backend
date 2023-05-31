@@ -1,9 +1,8 @@
 import { products } from './mocks/data';
-import { buildResponse } from './utils';
+import { buildResponse, ResponseSchema } from './utils';
 import { Product } from './models/Product';
-import { Response } from 'aws-cdk-lib/core/lib/custom-resource-provider/nodejs-entrypoint';
 
-export const handler = async (event: any = {}): Promise<Response> => {
+export const handler = async (event: any = {}): Promise<ResponseSchema> => {
   try {
     const id = event.pathParameters?.productId;
 

@@ -1,4 +1,10 @@
-export const buildResponse = (statusCode: number, body: any) => {
+export type ResponseSchema = {
+    statusCode: number;
+    body: string;
+    headers: { [key: string]: string | boolean };
+}
+
+export const buildResponse = (statusCode: number, body: any): ResponseSchema => {
     return {
         statusCode,
         body: JSON.stringify(body),
