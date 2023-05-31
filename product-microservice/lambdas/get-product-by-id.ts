@@ -1,8 +1,9 @@
 import { products } from './mocks/data';
 import { buildResponse } from './utils';
 import { Product } from './models/Product';
+import { Response } from 'aws-cdk-lib/core/lib/custom-resource-provider/nodejs-entrypoint';
 
-export const handler = async (event): Promise<any> => {
+export const handler = async (event: any = {}): Promise<Response> => {
   try {
     const id = event.pathParameters?.productId;
 
@@ -10,7 +11,7 @@ export const handler = async (event): Promise<any> => {
       return buildResponse(404, 'Product not found');
     }
 
-    const product: Product = products.find((p) => p.id === id);
+    const product: Product | undefined = products.find((p) => p.id === id);
 
     if (!product) {
       return buildResponse(404, 'Product not found');
