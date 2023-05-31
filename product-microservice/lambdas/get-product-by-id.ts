@@ -1,4 +1,4 @@
-import { products } from './mocks/data';
+import { availableProducts } from './mocks/data';
 import { buildResponse, ResponseSchema } from './utils';
 import { Product } from './models/Product';
 
@@ -10,7 +10,7 @@ export const handler = async (event: any = {}): Promise<ResponseSchema> => {
       return buildResponse(404, 'Product not found');
     }
 
-    const product: Product | undefined = products.find((p) => p.id === id);
+    const product: Product | undefined = availableProducts.find((p) => p.id === id);
 
     if (!product) {
       return buildResponse(404, 'Product not found');
