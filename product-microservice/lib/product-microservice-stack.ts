@@ -4,6 +4,7 @@ import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-node
 import { HttpMethod, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { IResource, LambdaIntegration, MockIntegration, PassthroughBehavior, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import * as path from "path";
+import {Duration} from "aws-cdk-lib";
 
 export class ProductMicroserviceStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -20,11 +21,13 @@ export class ProductMicroserviceStack extends cdk.Stack {
     }
 
     const getProductsListLambda = new NodejsFunction(this, 'getProductsList', {
+      timeout: Duration.seconds(15),
       entry: path.join(__dirname, '..', 'lambdas', 'get-products-list.ts'),
       ...nodeJsFunctionProps,
     });
 
     const getOneProductLambda = new NodejsFunction(this, 'getProductsById', {
+      timeout: Duration.seconds(15),
       entry: path.join(__dirname, '..', 'lambdas', 'get-product-by-id.ts'),
       ...nodeJsFunctionProps,
     });
