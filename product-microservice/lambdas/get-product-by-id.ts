@@ -1,11 +1,14 @@
-import { availableProducts } from './mocks/data';
+import 'reflect-metadata';
 import { buildResponse, ResponseSchema } from './utils';
 import {dataSource} from "./data-source";
 import {Product} from "./entities/Product.entity";
 
 export const handler = async (event: any = {}): Promise<ResponseSchema> => {
   try {
-    await dataSource.initialize();
+    if (!dataSource.isInitialized) {
+      await dataSource.initialize();
+    }
+
     const id = event.pathParameters?.productId;
 
     if (!id) {
