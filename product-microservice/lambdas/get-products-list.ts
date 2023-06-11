@@ -5,7 +5,6 @@ import {dataSource} from "./data-source";
 
 export const handler = async (): Promise<ResponseSchema> => {
   try {
-    // establish database connection
     await dataSource.initialize();
 
     const products = await dataSource.getRepository(Product).find();

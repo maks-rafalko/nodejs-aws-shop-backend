@@ -1,16 +1,18 @@
 import { availableProducts } from './mocks/data';
 import { buildResponse, ResponseSchema } from './utils';
-import { Product } from './models/Product';
+import {dataSource} from "./data-source";
+import {Product} from "./entities/Product.entity";
 
 export const handler = async (event: any = {}): Promise<ResponseSchema> => {
   try {
+    await dataSource.initialize();
     const id = event.pathParameters?.productId;
 
     if (!id) {
       return buildResponse(404, 'Product not found');
     }
 
-    const product: Product | undefined = availableProducts.find((p) => p.id === id);
+    const product = await dataSource.getRepository(Product).findOneBy({id});
 
     if (!product) {
       return buildResponse(404, 'Product not found');
@@ -18,6 +20,7 @@ export const handler = async (event: any = {}): Promise<ResponseSchema> => {
 
     return buildResponse(200, product);
   } catch (error) {
+    console.log(error);
     return buildResponse(500, error);
   }
 };
