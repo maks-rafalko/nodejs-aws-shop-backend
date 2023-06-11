@@ -4,7 +4,7 @@ export type ResponseSchema = {
     headers: { [key: string]: string | boolean };
 }
 
-export const buildResponse = (statusCode: number, body: any): ResponseSchema => {
+export const buildResponse = (statusCode: number, body: any = undefined): ResponseSchema => {
     return {
         statusCode,
         body: JSON.stringify(body),

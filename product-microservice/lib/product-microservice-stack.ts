@@ -26,6 +26,12 @@ export class ProductMicroserviceStack extends cdk.Stack {
       ...nodeJsFunctionProps,
     });
 
+    const createProductLambda = new NodejsFunction(this, 'createProduct', {
+      timeout: Duration.seconds(15),
+      entry: path.join(__dirname, '..', 'lambdas', 'create-product.ts'),
+      ...nodeJsFunctionProps,
+    });
+
     const getOneProductLambda = new NodejsFunction(this, 'getProductsById', {
       timeout: Duration.seconds(15),
       entry: path.join(__dirname, '..', 'lambdas', 'get-product-by-id.ts'),
@@ -34,6 +40,7 @@ export class ProductMicroserviceStack extends cdk.Stack {
 
     // Integrate the Lambda functions with the API Gateway resource
     const getProductsListIntegration = new LambdaIntegration(getProductsListLambda);
+    const createProductIntegration = new LambdaIntegration(createProductLambda);
     const getOneProductIntegration = new LambdaIntegration(getOneProductLambda);
 
     // Create an API Gateway resource for each of the CRUD operations
@@ -43,6 +50,7 @@ export class ProductMicroserviceStack extends cdk.Stack {
 
     const productsResource = api.root.addResource('products');
     productsResource.addMethod(HttpMethod.GET, getProductsListIntegration);
+    productsResource.addMethod(HttpMethod.POST, createProductIntegration);
     addCorsOptions(productsResource);
 
     const singleProductResource = productsResource.addResource('{productId}');
