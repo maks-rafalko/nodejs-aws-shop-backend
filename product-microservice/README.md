@@ -44,3 +44,8 @@ Migrations can be executed by running:
 docker compose exec app npm run typeorm migration:run -- --dataSource=lambdas/data-source.ts
 ```
 
+## Populating DB with test data
+
+```bash
+npx ts-node populate-db.ts
+```
