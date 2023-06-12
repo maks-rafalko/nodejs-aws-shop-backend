@@ -30,6 +30,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AvailableProduct'
+    post:
+      tags:
+        - Product
+      summary: Add a new product to the shop
+      description: Add a new product to the shop with stock information
+      operationId: createProduct
+      requestBody:
+          description: Product object that needs to be added to the shop
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/AvailableProduct'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableProduct'
+        '400':
+          description: Bad Request
   /products/{productId}:
     get:
       tags:
