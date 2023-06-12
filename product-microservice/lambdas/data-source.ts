@@ -7,11 +7,10 @@ export const dataSource = new DataSource({
   port: 5432,
   synchronize: false,
   logging: true,
-  // tODO use .env
-  host: 'shop-instance.c9wd2avbp1ew.us-east-1.rds.amazonaws.com',//process.env.DB_HOST,
-  username: 'postgres',//process.env.DB_USERNAME,
-  database: 'shop',//process.env.DB_NAME,
-  password: 'postgres',//process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
   entities: [
     //__dirname + "/entities/*.*"
     Product,

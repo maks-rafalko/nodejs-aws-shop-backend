@@ -17,9 +17,6 @@ export const handler = async (event: any): Promise<ResponseSchema> => {
 
     validateModel<CreateProductDto>(createProductDto, validationRules);
 
-    // TODO update FE
-    // TODO .env
-
     if (!dataSource.isInitialized) {
       await dataSource.initialize();
     }

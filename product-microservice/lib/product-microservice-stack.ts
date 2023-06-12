@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -5,6 +6,8 @@ import { HttpMethod, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { IResource, LambdaIntegration, MockIntegration, PassthroughBehavior, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import * as path from "path";
 import {Duration} from "aws-cdk-lib";
+
+dotenv.config();
 
 export class ProductMicroserviceStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -17,7 +20,10 @@ export class ProductMicroserviceStack extends cdk.Stack {
         ],
       },
       environment: {
-        // todo - add environment variables
+        DB_HOST: process.env.DB_HOST!,
+        DB_NAME: process.env.DB_NAME!,
+        DB_USERNAME: process.env.DB_USERNAME!,
+        DB_PASSWORD: process.env.DB_PASSWORD!,
       },
       runtime: Runtime.NODEJS_18_X,
     }
