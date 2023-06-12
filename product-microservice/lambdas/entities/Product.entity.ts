@@ -15,7 +15,6 @@ export class Product {
   @Column("decimal", { precision: 5, scale: 2 })
   price: number
 
-  @OneToOne(() => Stock, (stock) => stock.product, { onDelete: 'CASCADE', eager: true, cascade: true })
-  @JoinColumn()
+  @OneToOne(() => Stock, (stock) => stock.product, { eager: true, cascade: true })
   stock: Stock;
 }

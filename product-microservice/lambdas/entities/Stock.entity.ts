@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne} from "typeorm"
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn} from "typeorm"
 import {Product} from "./Product.entity";
 
 @Entity()
@@ -9,6 +9,7 @@ export class Stock {
   @Column('int')
   count: number;
 
-  @OneToOne(() => Product, (product) => product.stock)
+  @OneToOne(() => Product, (product) => product.stock, { onDelete: 'CASCADE' })
+  @JoinColumn()
   product: Product;
 }
