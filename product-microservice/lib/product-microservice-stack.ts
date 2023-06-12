@@ -16,24 +16,26 @@ export class ProductMicroserviceStack extends cdk.Stack {
           'aws-sdk', // Use the 'aws-sdk' available in the Lambda runtime
         ],
       },
-      environment: {},
+      environment: {
+        // todo - add environment variables
+      },
       runtime: Runtime.NODEJS_18_X,
     }
 
     const getProductsListLambda = new NodejsFunction(this, 'getProductsList', {
-      timeout: Duration.seconds(15),
+      timeout: Duration.seconds(30),
       entry: path.join(__dirname, '..', 'lambdas', 'get-products-list.ts'),
       ...nodeJsFunctionProps,
     });
 
     const createProductLambda = new NodejsFunction(this, 'createProduct', {
-      timeout: Duration.seconds(15),
+      timeout: Duration.seconds(30),
       entry: path.join(__dirname, '..', 'lambdas', 'create-product.ts'),
       ...nodeJsFunctionProps,
     });
 
     const getOneProductLambda = new NodejsFunction(this, 'getProductsById', {
-      timeout: Duration.seconds(15),
+      timeout: Duration.seconds(30),
       entry: path.join(__dirname, '..', 'lambdas', 'get-product-by-id.ts'),
       ...nodeJsFunctionProps,
     });

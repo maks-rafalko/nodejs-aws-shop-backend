@@ -1,10 +1,12 @@
 import 'reflect-metadata';
-import { buildResponse, ResponseSchema } from './utils';
+import {buildResponse, ResponseSchema, toProductWithStock} from './utils';
 import {dataSource} from "./data-source";
 import {Product} from "./entities/Product.entity";
 
 export const handler = async (event: any = {}): Promise<ResponseSchema> => {
   try {
+    console.log(event);
+
     if (!dataSource.isInitialized) {
       await dataSource.initialize();
     }
@@ -21,7 +23,7 @@ export const handler = async (event: any = {}): Promise<ResponseSchema> => {
       return buildResponse(404, 'Product not found');
     }
 
-    return buildResponse(200, product);
+    return buildResponse(200, toProductWithStock(product));
   } catch (error) {
     console.log(error);
     return buildResponse(500, error);

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn} from "typeorm"
+import {Stock} from "./Stock.entity";
 
 @Entity()
 export class Product {
@@ -13,4 +14,8 @@ export class Product {
 
   @Column("decimal", { precision: 5, scale: 2 })
   price: number
+
+  @OneToOne(() => Stock, (stock) => stock.product, { onDelete: 'CASCADE', eager: true, cascade: true })
+  @JoinColumn()
+  stock: Stock;
 }

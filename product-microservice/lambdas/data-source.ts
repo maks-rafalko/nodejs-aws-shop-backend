@@ -1,5 +1,6 @@
 import {DataSource} from "typeorm";
 import {Product} from "./entities/Product.entity";
+import {Stock} from "./entities/Stock.entity";
 
 export const dataSource = new DataSource({
   type: `postgres`,
@@ -13,6 +14,7 @@ export const dataSource = new DataSource({
   password: 'postgres',//process.env.DB_PASSWORD,
   entities: [
     //__dirname + "/entities/*.*"
-    Product
+    Product,
+    Stock,
   ]
 });
