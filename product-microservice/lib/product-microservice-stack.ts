@@ -1,9 +1,13 @@
+import * as dotenv from 'dotenv';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { HttpMethod, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { IResource, LambdaIntegration, MockIntegration, PassthroughBehavior, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import * as path from "path";
+import {Duration} from "aws-cdk-lib";
+
+dotenv.config();
 
 export class ProductMicroserviceStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -15,22 +19,36 @@ export class ProductMicroserviceStack extends cdk.Stack {
           'aws-sdk', // Use the 'aws-sdk' available in the Lambda runtime
         ],
       },
-      environment: {},
+      environment: {
+        DB_HOST: process.env.DB_HOST!,
+        DB_NAME: process.env.DB_NAME!,
+        DB_USERNAME: process.env.DB_USERNAME!,
+        DB_PASSWORD: process.env.DB_PASSWORD!,
+      },
       runtime: Runtime.NODEJS_18_X,
     }
 
     const getProductsListLambda = new NodejsFunction(this, 'getProductsList', {
+      timeout: Duration.seconds(30),
       entry: path.join(__dirname, '..', 'lambdas', 'get-products-list.ts'),
       ...nodeJsFunctionProps,
     });
 
+    const createProductLambda = new NodejsFunction(this, 'createProduct', {
+      timeout: Duration.seconds(30),
+      entry: path.join(__dirname, '..', 'lambdas', 'create-product.ts'),
+      ...nodeJsFunctionProps,
+    });
+
     const getOneProductLambda = new NodejsFunction(this, 'getProductsById', {
+      timeout: Duration.seconds(30),
       entry: path.join(__dirname, '..', 'lambdas', 'get-product-by-id.ts'),
       ...nodeJsFunctionProps,
     });
 
     // Integrate the Lambda functions with the API Gateway resource
     const getProductsListIntegration = new LambdaIntegration(getProductsListLambda);
+    const createProductIntegration = new LambdaIntegration(createProductLambda);
     const getOneProductIntegration = new LambdaIntegration(getOneProductLambda);
 
     // Create an API Gateway resource for each of the CRUD operations
@@ -40,6 +58,7 @@ export class ProductMicroserviceStack extends cdk.Stack {
 
     const productsResource = api.root.addResource('products');
     productsResource.addMethod(HttpMethod.GET, getProductsListIntegration);
+    productsResource.addMethod(HttpMethod.POST, createProductIntegration);
     addCorsOptions(productsResource);
 
     const singleProductResource = productsResource.addResource('{productId}');

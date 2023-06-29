@@ -8,7 +8,10 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "local:start-api": "cdk synth && sam local start-api -t ./cdk.out/ProductMicroserviceStack.template.json",
+    "local:invoke-product-list": "cdk synth && sam local invoke -t ./cdk.out/ProductMicroserviceStack.template.json getProductsList"
   },
   "devDependencies": {
     "@types/jest": "^29.5.1",
@@ -23,7 +26,11 @@
     "@types/yup": "^0.32.0",
     "aws-cdk-lib": "2.81.0",
     "constructs": "^10.0.0",
+    "dotenv": "^16.1.4",
+    "pg": "^8.11.0",
+    "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
+    "typeorm": "^0.3.16",
     "yup": "^1.2.0"
   }
 }
