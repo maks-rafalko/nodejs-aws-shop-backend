@@ -6,13 +6,15 @@ on: # rebuild any PRs and main branch changes
       - main
       - 'releases/*'
 
+defaults:
+  run:
+    working-directory: product-microservice
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Go to product-microservice directory
-        run: cd product-microservice
 
       - name: Install dependencies
         run: npm install
